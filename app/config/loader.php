@@ -25,6 +25,7 @@ $loader
             'App\Utils' => $config->application->utilsDir,
             'App\Core' => $config->application->coreDir,
             'Xin\Thrift' => ROOT_PATH . '/thrift/gen-php/Xin/Thrift/',
+            'App\Support' => APP_PATH . '/support/',
         ]
     )->registerFiles(
         [
