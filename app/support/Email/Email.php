@@ -86,12 +86,12 @@ class Email
      */
     public function send($subject = null, $body = null)
     {
-        if (!isset($subject)) {
-            $subject = $this->subject;
+        if (isset($subject)) {
+            $this->subject = $subject;
         }
 
-        if (!isset($body)) {
-            $body = $this->body;
+        if (isset($body)) {
+            $this->body = $body;
         }
 
         $mail = new PHPMailer();
@@ -113,14 +113,22 @@ class Email
 
         $mail->isHTML(true);                              // Set email format to HTML
 
-        $mail->Subject = $subject;
-        $mail->Body = $body;
+        $mail->Subject = $this->subject;
+        $mail->Body = $this->body;
 
         if (!$mail->send()) {
             throw new EmailException('Mailer Error: ' . $mail->ErrorInfo);
         }
-        // 发送成功，清空发送列表
-        $this->target = null;
+        // 发送成功，清空发送列表=
+        $this->afterEmailSend();
         return true;
     }
+
+    protected function afterEmailSend()
+    {
+        $this->target = null;
+        $this->subject = null;
+        $this->body = null;
+    }
+
 }
