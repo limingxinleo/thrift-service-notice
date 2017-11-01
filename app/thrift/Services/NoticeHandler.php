@@ -8,6 +8,8 @@
 // +----------------------------------------------------------------------
 namespace App\Thrift\Services;
 
+use App\Jobs\SendEmailJob;
+use App\Utils\Queue;
 use Xin\Thrift\Notice\NoticeIf;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
@@ -23,15 +25,8 @@ class NoticeHandler extends Handler implements NoticeIf
      */
     public function sendEmail(array $emails, EmailContent $content)
     {
-        $client = EmailSupport::getInstance();
-        foreach ($emails as $item) {
-            $client->addTarget($item->email, $item->name);
-        }
-        if ($client->send($content->title, $content->content)) {
-            // 发送成功记录
-            return true;
-        }
-        return false;
+        Queue::push(new SendEmailJob($emails, $content));
+        return true;
     }
 
 }

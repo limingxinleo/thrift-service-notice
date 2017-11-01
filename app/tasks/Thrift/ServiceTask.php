@@ -5,6 +5,7 @@ namespace App\Tasks\Thrift;
 use App\Core\Cli\Task\Socket;
 use App\Thrift\Clients\RegisterClient;
 use App\Thrift\Services\AppHandler;
+use App\Thrift\Services\NoticeHandler;
 use App\Utils\Redis;
 use App\Utils\Register\Sign;
 use limx\Support\Str;
@@ -16,6 +17,7 @@ use swoole_server;
 use Thrift\Protocol\TBinaryProtocol;
 use Thrift\TMultiplexedProcessor;
 use Thrift\Transport\TMemoryBuffer;
+use Xin\Thrift\Notice\NoticeProcessor;
 use Xin\Thrift\Register\ServiceInfo;
 use swoole_process;
 
@@ -26,11 +28,10 @@ class ServiceTask extends Socket
     protected $config = [
         'pid_file' => ROOT_PATH . '/service.pid',
         'daemonize' => false,
-        // 'worker_num' => 4, // cpu核数1-4倍比较合理 不写则为cpu核数
         'max_request' => 500, // 每个worker进程最大处理请求次数
     ];
 
-    protected $port = 10086;
+    protected $port = 52102;
 
     protected $host = '127.0.0.1';
 
@@ -106,7 +107,8 @@ class ServiceTask extends Socket
 
         $isOpen = di('config')->thrift->register->open;
         if ($isOpen) {
-            $this->registryHeartbeat($server, 'app');
+            // $this->registryHeartbeat($server, 'app');
+            $this->registryHeartbeat($server, 'notice');
         }
     }
 
@@ -116,8 +118,10 @@ class ServiceTask extends Socket
         // dump(get_included_files()); // 查看不能被平滑重启的文件
 
         $this->processor = new TMultiplexedProcessor();
-        $handler = new AppHandler();
-        $this->processor->registerProcessor('app', new AppProcessor($handler));
+        // $handler = new AppHandler();
+        // $this->processor->registerProcessor('app', new AppProcessor($handler));
+        $handler = new NoticeHandler();
+        $this->processor->registerProcessor('notice', new NoticeProcessor($handler));
     }
 
     public function receive(swoole_server $server, $fd, $reactor_id, $data)
