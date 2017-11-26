@@ -35,21 +35,21 @@ return [
 
             // 默认可用的发送网关
             'gateways' => [
-                'yunpian', 'aliyun', 'alidayu',
+                'aliyun', 'yunpian', 'alidayu',
             ],
         ],
         // 可用的网关配置
         'gateways' => [
             'errorlog' => [
-                'file' => '/tmp/easy-sms.log',
+                'file' => ROOT_PATH . '/storage/log/easy-sms.log',
             ],
             'yunpian' => [
-                'api_key' => '824f0ff2f71cab52936axxxxxxxxxx',
+                'api_key' => env('SMS_YUNPIAN_APIKEY'),
             ],
             'aliyun' => [
-                'access_key_id' => '',
-                'access_key_secret' => '',
-                'sign_name' => '',
+                'access_key_id' => env('SMS_ALIYUN_ACCESS_KEY_ID'),
+                'access_key_secret' => env('SMS_ALIYUN_ACCESS_KEY_SECRET'),
+                'sign_name' => env('SMS_ALIYUN_SIGN_NAME'),
             ],
             'alidayu' => [
                 //...
