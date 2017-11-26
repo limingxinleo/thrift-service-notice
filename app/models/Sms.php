@@ -38,6 +38,20 @@ class Sms extends Model
     /**
      *
      * @var string
+     * @Column(type="string", length=32, nullable=false)
+     */
+    public $template_id;
+
+    /**
+     *
+     * @var string
+     * @Column(type="string", length=255, nullable=false)
+     */
+    public $data;
+
+    /**
+     *
+     * @var string
      * @Column(type="string", length=255, nullable=false)
      */
     public $content;
@@ -80,16 +94,6 @@ class Sms extends Model
     }
 
     /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'sms';
-    }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
@@ -109,6 +113,16 @@ class Sms extends Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'sms';
     }
 
 }

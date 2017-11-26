@@ -27,11 +27,11 @@ class Sms {
   /**
    * @var string
    */
-  public $content = null;
+  public $content = "";
   /**
    * @var string
    */
-  public $template = null;
+  public $template = "";
   /**
    * @var array
    */
@@ -39,11 +39,11 @@ class Sms {
   /**
    * @var int
    */
-  public $searchNumber = null;
+  public $searchNumber = 0;
   /**
    * @var string
    */
-  public $searchCode = null;
+  public $searchCode = "";
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {

@@ -33,11 +33,11 @@ struct EmailSearch {
 
 struct Sms {
     1: string               mobile;
-    2: string               content;
-    3: string               template;
+    2: string               content = "";
+    3: string               template = "";
     4: map<string,string>   data;
-    5: i64                  searchNumber;
-    6: string               searchCode;
+    5: i64                  searchNumber = 0;
+    6: string               searchCode = "";
 }
 
 service Notice {

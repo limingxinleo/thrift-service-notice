@@ -10,11 +10,13 @@ namespace App\Thrift\Services;
 
 use App\Biz\Email\EmailRepository;
 use App\Jobs\SendEmailJob;
+use App\Jobs\SendSmsJob;
 use App\Utils\Queue;
 use Xin\Thrift\Notice\EmailInfo;
 use Xin\Thrift\Notice\NoticeIf;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
+use Xin\Thrift\Notice\Sms;
 
 class NoticeHandler extends Handler implements NoticeIf
 {
@@ -26,8 +28,7 @@ class NoticeHandler extends Handler implements NoticeIf
      */
     public function sendEmail(array $emails, EmailContent $content)
     {
-        Queue::push(new SendEmailJob($emails, $content));
-        return true;
+        return Queue::push(new SendEmailJob($emails, $content));
     }
 
     /**
@@ -65,5 +66,16 @@ class NoticeHandler extends Handler implements NoticeIf
         }
 
         return $result;
+    }
+
+    /**
+     * @desc   发送短信
+     * @author limx
+     * @param Sms[] $sms
+     * @return mixed
+     */
+    public function sendSms(array $sms)
+    {
+        return Queue::push(new SendSmsJob($sms));
     }
 }
