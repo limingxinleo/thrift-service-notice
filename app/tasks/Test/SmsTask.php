@@ -34,24 +34,6 @@ class SmsTask extends Task
         ]);
         $res = $client->sendSms([$sms]);
         dd($res);
-
-
-        $mobile = '13250874521';
-        $date = date('Y-m-d H:i:s');
-        $content = sprintf('恭喜你，成功使用了Thrift通知。当前时间：%s', $date);
-
-        $config = di('app')->sms->toArray();
-        $easySms = new EasySms($config);
-
-        $res = $easySms->send($mobile, [
-            'content' => $content,
-            'template' => 'SMS_113930016',
-            'data' => [
-                'time' => $date,
-            ],
-        ]);
-
-        dd($res);
     }
 
 }
