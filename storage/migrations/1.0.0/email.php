@@ -31,16 +31,6 @@ class EmailMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'from_email',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 128,
-                            'after' => 'id'
-                        ]
-                    ),
-                    new Column(
                         'search_number',
                         [
                             'type' => Column::TYPE_BIGINTEGER,
@@ -48,7 +38,7 @@ class EmailMigration_100 extends Migration
                             'unsigned' => true,
                             'notNull' => true,
                             'size' => 20,
-                            'after' => 'from_email'
+                            'after' => 'id'
                         ]
                     ),
                     new Column(
@@ -61,11 +51,22 @@ class EmailMigration_100 extends Migration
                         ]
                     ),
                     new Column(
+                        'status',
+                        [
+                            'type' => Column::TYPE_INTEGER,
+                            'default' => "0",
+                            'unsigned' => true,
+                            'notNull' => true,
+                            'size' => 3,
+                            'after' => 'search_code'
+                        ]
+                    ),
+                    new Column(
                         'created_at',
                         [
                             'type' => Column::TYPE_DATETIME,
                             'size' => 1,
-                            'after' => 'search_code'
+                            'after' => 'status'
                         ]
                     ),
                     new Column(

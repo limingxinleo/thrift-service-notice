@@ -16,13 +16,6 @@ class Email extends Model
 
     /**
      *
-     * @var string
-     * @Column(type="string", length=128, nullable=false)
-     */
-    public $from_email;
-
-    /**
-     *
      * @var integer
      * @Column(type="integer", length=20, nullable=false)
      */
@@ -34,6 +27,13 @@ class Email extends Model
      * @Column(type="string", length=128, nullable=false)
      */
     public $search_code;
+
+    /**
+     *
+     * @var integer
+     * @Column(type="integer", length=3, nullable=false)
+     */
+    public $status;
 
     /**
      *
@@ -59,16 +59,6 @@ class Email extends Model
     }
 
     /**
-     * Returns table name mapped in the model.
-     *
-     * @return string
-     */
-    public function getSource()
-    {
-        return 'email';
-    }
-
-    /**
      * Allows to query a set of records that match the specified conditions
      *
      * @param mixed $parameters
@@ -88,6 +78,16 @@ class Email extends Model
     public static function findFirst($parameters = null)
     {
         return parent::findFirst($parameters);
+    }
+
+    /**
+     * Returns table name mapped in the model.
+     *
+     * @return string
+     */
+    public function getSource()
+    {
+        return 'email';
     }
 
 }
