@@ -35,7 +35,7 @@ return [
 
             // 默认可用的发送网关
             'gateways' => [
-                'aliyun', 'yunpian', 'alidayu',
+                'yunpian', 'aliyun', 'alidayu',
             ],
         ],
         // 可用的网关配置
