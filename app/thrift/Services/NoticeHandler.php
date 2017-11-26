@@ -43,6 +43,7 @@ class NoticeHandler extends Handler implements NoticeIf
         $result = [];
         foreach ($emails as $email) {
             $item = new EmailInfo();
+            $item->status = $email->status;
             $item->emailContent = new EmailContent([
                 'title' => $email->content->subject,
                 'content' => $email->content->content,

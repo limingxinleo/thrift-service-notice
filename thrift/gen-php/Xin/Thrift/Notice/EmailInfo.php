@@ -28,6 +28,10 @@ class EmailInfo {
    * @var \Xin\Thrift\Notice\Email[]
    */
   public $target = null;
+  /**
+   * @var int
+   */
+  public $status = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
@@ -46,6 +50,10 @@ class EmailInfo {
             'class' => '\Xin\Thrift\Notice\Email',
             ),
           ),
+        3 => array(
+          'var' => 'status',
+          'type' => TType::I16,
+          ),
         );
     }
     if (is_array($vals)) {
@@ -54,6 +62,9 @@ class EmailInfo {
       }
       if (isset($vals['target'])) {
         $this->target = $vals['target'];
+      }
+      if (isset($vals['status'])) {
+        $this->status = $vals['status'];
       }
     }
   }
@@ -103,6 +114,13 @@ class EmailInfo {
             $xfer += $input->skip($ftype);
           }
           break;
+        case 3:
+          if ($ftype == TType::I16) {
+            $xfer += $input->readI16($this->status);
+          } else {
+            $xfer += $input->skip($ftype);
+          }
+          break;
         default:
           $xfer += $input->skip($ftype);
           break;
@@ -139,6 +157,11 @@ class EmailInfo {
         }
         $output->writeListEnd();
       }
+      $xfer += $output->writeFieldEnd();
+    }
+    if ($this->status !== null) {
+      $xfer += $output->writeFieldBegin('status', TType::I16, 3);
+      $xfer += $output->writeI16($this->status);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

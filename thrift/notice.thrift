@@ -21,6 +21,7 @@ struct EmailContent {
 struct EmailInfo {
     1: EmailContent emailContent;
     2: list<Email>  target;
+    3: i16          status;
 }
 
 struct EmailSearch {
