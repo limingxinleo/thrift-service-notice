@@ -6,9 +6,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
 /**
- * Class EmailContentMigration_100
+ * Class SmsMigration_100
  */
-class EmailContentMigration_100 extends Migration
+class SmsMigration_100 extends Migration
 {
     /**
      * Define the table structure
@@ -17,7 +17,7 @@ class EmailContentMigration_100 extends Migration
      */
     public function morph()
     {
-        $this->morphTable('email_content', [
+        $this->morphTable('sms', [
                 'columns' => [
                     new Column(
                         'id',
@@ -31,7 +31,7 @@ class EmailContentMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'email_id',
+                        'search_number',
                         [
                             'type' => Column::TYPE_BIGINTEGER,
                             'default' => "0",
@@ -42,20 +42,54 @@ class EmailContentMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'subject',
+                        'search_code',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
-                            'size' => 255,
-                            'after' => 'email_id'
+                            'size' => 128,
+                            'after' => 'search_number'
+                        ]
+                    ),
+                    new Column(
+                        'mobile',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 16,
+                            'after' => 'search_code'
                         ]
                     ),
                     new Column(
                         'content',
                         [
-                            'type' => Column::TYPE_TEXT,
-                            'size' => 1,
-                            'after' => 'subject'
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 255,
+                            'after' => 'mobile'
+                        ]
+                    ),
+                    new Column(
+                        'status',
+                        [
+                            'type' => Column::TYPE_INTEGER,
+                            'default' => "0",
+                            'unsigned' => true,
+                            'notNull' => true,
+                            'size' => 3,
+                            'after' => 'content'
+                        ]
+                    ),
+                    new Column(
+                        'result',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 255,
+                            'after' => 'status'
                         ]
                     ),
                     new Column(
@@ -63,7 +97,7 @@ class EmailContentMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_DATETIME,
                             'size' => 1,
-                            'after' => 'content'
+                            'after' => 'result'
                         ]
                     ),
                     new Column(
@@ -76,12 +110,11 @@ class EmailContentMigration_100 extends Migration
                     )
                 ],
                 'indexes' => [
-                    new Index('PRIMARY', ['id'], 'PRIMARY'),
-                    new Index('EMAIL_ID_UNIQUE', ['email_id'], 'UNIQUE')
+                    new Index('PRIMARY', ['id'], 'PRIMARY')
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '5',
+                    'AUTO_INCREMENT' => '1',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8mb4_unicode_ci'
                 ],

@@ -45,6 +45,7 @@ class EmailMigration_100 extends Migration
                         'search_code',
                         [
                             'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
                             'notNull' => true,
                             'size' => 128,
                             'after' => 'search_number'
@@ -85,7 +86,7 @@ class EmailMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '1',
+                    'AUTO_INCREMENT' => '5',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8mb4_unicode_ci'
                 ],
