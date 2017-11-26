@@ -39,11 +39,11 @@ class EmailRepository extends InstanceBase
             }
 
             $email_id = $email->id;
-            foreach ($emails as $email) {
+            foreach ($emails as $model) {
                 $target = new EmailTarget();
                 $target->email_id = $email_id;
-                $target->to_email = $email->email;
-                $target->to_name = $email->name;
+                $target->to_email = $model->email;
+                $target->to_name = $model->name;
                 if (false === $target->save()) {
                     throw new CodeException(ErrorCode::$ENUM_EMAIL_MODEL_SAVE_FAILED);
                 }

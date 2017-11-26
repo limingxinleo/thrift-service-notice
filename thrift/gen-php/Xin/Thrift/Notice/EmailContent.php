@@ -31,11 +31,11 @@ class EmailContent {
   /**
    * @var int
    */
-  public $searchNumber = null;
+  public $searchNumber = 0;
   /**
    * @var string
    */
-  public $searchCode = null;
+  public $searchCode = "";
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
