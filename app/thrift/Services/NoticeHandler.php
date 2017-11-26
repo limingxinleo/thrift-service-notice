@@ -15,7 +15,6 @@ use Xin\Thrift\Notice\EmailInfo;
 use Xin\Thrift\Notice\NoticeIf;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
-use App\Support\Email\Email as EmailSupport;
 
 class NoticeHandler extends Handler implements NoticeIf
 {
@@ -31,6 +30,12 @@ class NoticeHandler extends Handler implements NoticeIf
         return true;
     }
 
+    /**
+     * @desc   查询邮件列表
+     * @author limx
+     * @param \Xin\Thrift\Notice\EmailSearch $input
+     * @return array
+     */
     public function getEmailList(\Xin\Thrift\Notice\EmailSearch $input)
     {
         $emails = EmailRepository::getInstance()->list(
