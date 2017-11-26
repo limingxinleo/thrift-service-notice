@@ -62,13 +62,32 @@ class SmsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
+                        'template_id',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'notNull' => true,
+                            'size' => 32,
+                            'after' => 'mobile'
+                        ]
+                    ),
+                    new Column(
+                        'data',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 255,
+                            'after' => 'template_id'
+                        ]
+                    ),
+                    new Column(
                         'content',
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'default' => "",
                             'notNull' => true,
                             'size' => 255,
-                            'after' => 'mobile'
+                            'after' => 'data'
                         ]
                     ),
                     new Column(
@@ -88,7 +107,7 @@ class SmsMigration_100 extends Migration
                             'type' => Column::TYPE_VARCHAR,
                             'default' => "",
                             'notNull' => true,
-                            'size' => 255,
+                            'size' => 1000,
                             'after' => 'status'
                         ]
                     ),
@@ -114,7 +133,7 @@ class SmsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '1',
+                    'AUTO_INCREMENT' => '4',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8mb4_unicode_ci'
                 ],
