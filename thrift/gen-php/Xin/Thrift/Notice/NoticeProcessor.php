@@ -89,4 +89,27 @@ class NoticeProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_sendSms($seqid, $input, $output) {
+    $args = new \Xin\Thrift\Notice\Notice_sendSms_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Xin\Thrift\Notice\Notice_sendSms_result();
+    try {
+      $result->success = $this->handler_->sendSms($args->sms);
+    } catch (\Xin\Thrift\Notice\ThriftException $ex) {
+      $result->ex = $ex;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'sendSms', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('sendSms', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }

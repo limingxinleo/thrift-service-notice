@@ -30,6 +30,12 @@ interface NoticeIf {
    * @throws \Xin\Thrift\Notice\ThriftException
    */
   public function getEmailList(\Xin\Thrift\Notice\EmailSearch $input);
+  /**
+   * @param \Xin\Thrift\Notice\Sms[] $sms
+   * @return bool
+   * @throws \Xin\Thrift\Notice\ThriftException
+   */
+  public function sendSms(array $sms);
 }
 
 

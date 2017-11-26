@@ -16,11 +16,11 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class Notice_getEmailList_result {
+class Notice_sendSms_result {
   static $_TSPEC;
 
   /**
-   * @var \Xin\Thrift\Notice\EmailInfo[]
+   * @var bool
    */
   public $success = null;
   /**
@@ -33,12 +33,7 @@ class Notice_getEmailList_result {
       self::$_TSPEC = array(
         0 => array(
           'var' => 'success',
-          'type' => TType::LST,
-          'etype' => TType::STRUCT,
-          'elem' => array(
-            'type' => TType::STRUCT,
-            'class' => '\Xin\Thrift\Notice\EmailInfo',
-            ),
+          'type' => TType::BOOL,
           ),
         1 => array(
           'var' => 'ex',
@@ -58,7 +53,7 @@ class Notice_getEmailList_result {
   }
 
   public function getName() {
-    return 'Notice_getEmailList_result';
+    return 'Notice_sendSms_result';
   }
 
   public function read($input)
@@ -77,19 +72,8 @@ class Notice_getEmailList_result {
       switch ($fid)
       {
         case 0:
-          if ($ftype == TType::LST) {
-            $this->success = array();
-            $_size23 = 0;
-            $_etype26 = 0;
-            $xfer += $input->readListBegin($_etype26, $_size23);
-            for ($_i27 = 0; $_i27 < $_size23; ++$_i27)
-            {
-              $elem28 = null;
-              $elem28 = new \Xin\Thrift\Notice\EmailInfo();
-              $xfer += $elem28->read($input);
-              $this->success []= $elem28;
-            }
-            $xfer += $input->readListEnd();
+          if ($ftype == TType::BOOL) {
+            $xfer += $input->readBool($this->success);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -114,22 +98,10 @@ class Notice_getEmailList_result {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('Notice_getEmailList_result');
+    $xfer += $output->writeStructBegin('Notice_sendSms_result');
     if ($this->success !== null) {
-      if (!is_array($this->success)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
-      {
-        $output->writeListBegin(TType::STRUCT, count($this->success));
-        {
-          foreach ($this->success as $iter29)
-          {
-            $xfer += $iter29->write($output);
-          }
-        }
-        $output->writeListEnd();
-      }
+      $xfer += $output->writeFieldBegin('success', TType::BOOL, 0);
+      $xfer += $output->writeBool($this->success);
       $xfer += $output->writeFieldEnd();
     }
     if ($this->ex !== null) {

@@ -31,10 +31,22 @@ struct EmailSearch {
     4: i32      pageSize = 10;
 }
 
+struct Sms {
+    1: string               mobile;
+    2: string               content;
+    3: string               template;
+    4: map<string,string>   data;
+    5: i64                  searchNumber;
+    6: string               searchCode;
+}
+
 service Notice {
     // 发送邮件
     bool sendEmail(1:list<Email> emails, 2: EmailContent content) throws (1:ThriftException ex);
 
     // 查询邮件
     list<EmailInfo> getEmailList(1:EmailSearch input) throws (1:ThriftException ex);
+
+    // 发送短信
+    bool sendSms(1:list<Sms> sms) throws (1:ThriftException ex);
 }

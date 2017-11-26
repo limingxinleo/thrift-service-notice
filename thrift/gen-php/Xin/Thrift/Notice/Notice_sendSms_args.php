@@ -16,49 +16,37 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class Notice_sendEmail_args {
+class Notice_sendSms_args {
   static $_TSPEC;
 
   /**
-   * @var \Xin\Thrift\Notice\Email[]
+   * @var \Xin\Thrift\Notice\Sms[]
    */
-  public $emails = null;
-  /**
-   * @var \Xin\Thrift\Notice\EmailContent
-   */
-  public $content = null;
+  public $sms = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
         1 => array(
-          'var' => 'emails',
+          'var' => 'sms',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
           'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\Xin\Thrift\Notice\Email',
+            'class' => '\Xin\Thrift\Notice\Sms',
             ),
-          ),
-        2 => array(
-          'var' => 'content',
-          'type' => TType::STRUCT,
-          'class' => '\Xin\Thrift\Notice\EmailContent',
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['emails'])) {
-        $this->emails = $vals['emails'];
-      }
-      if (isset($vals['content'])) {
-        $this->content = $vals['content'];
+      if (isset($vals['sms'])) {
+        $this->sms = $vals['sms'];
       }
     }
   }
 
   public function getName() {
-    return 'Notice_sendEmail_args';
+    return 'Notice_sendSms_args';
   }
 
   public function read($input)
@@ -78,26 +66,18 @@ class Notice_sendEmail_args {
       {
         case 1:
           if ($ftype == TType::LST) {
-            $this->emails = array();
-            $_size16 = 0;
-            $_etype19 = 0;
-            $xfer += $input->readListBegin($_etype19, $_size16);
-            for ($_i20 = 0; $_i20 < $_size16; ++$_i20)
+            $this->sms = array();
+            $_size30 = 0;
+            $_etype33 = 0;
+            $xfer += $input->readListBegin($_etype33, $_size30);
+            for ($_i34 = 0; $_i34 < $_size30; ++$_i34)
             {
-              $elem21 = null;
-              $elem21 = new \Xin\Thrift\Notice\Email();
-              $xfer += $elem21->read($input);
-              $this->emails []= $elem21;
+              $elem35 = null;
+              $elem35 = new \Xin\Thrift\Notice\Sms();
+              $xfer += $elem35->read($input);
+              $this->sms []= $elem35;
             }
             $xfer += $input->readListEnd();
-          } else {
-            $xfer += $input->skip($ftype);
-          }
-          break;
-        case 2:
-          if ($ftype == TType::STRUCT) {
-            $this->content = new \Xin\Thrift\Notice\EmailContent();
-            $xfer += $this->content->read($input);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -114,30 +94,22 @@ class Notice_sendEmail_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('Notice_sendEmail_args');
-    if ($this->emails !== null) {
-      if (!is_array($this->emails)) {
+    $xfer += $output->writeStructBegin('Notice_sendSms_args');
+    if ($this->sms !== null) {
+      if (!is_array($this->sms)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('emails', TType::LST, 1);
+      $xfer += $output->writeFieldBegin('sms', TType::LST, 1);
       {
-        $output->writeListBegin(TType::STRUCT, count($this->emails));
+        $output->writeListBegin(TType::STRUCT, count($this->sms));
         {
-          foreach ($this->emails as $iter22)
+          foreach ($this->sms as $iter36)
           {
-            $xfer += $iter22->write($output);
+            $xfer += $iter36->write($output);
           }
         }
         $output->writeListEnd();
       }
-      $xfer += $output->writeFieldEnd();
-    }
-    if ($this->content !== null) {
-      if (!is_object($this->content)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('content', TType::STRUCT, 2);
-      $xfer += $this->content->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();
