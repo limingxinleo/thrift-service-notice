@@ -8,8 +8,10 @@
 // +----------------------------------------------------------------------
 namespace App\Thrift\Services;
 
+use App\Biz\Email\EmailRepository;
 use App\Jobs\SendEmailJob;
 use App\Utils\Queue;
+use Xin\Thrift\Notice\EmailInfo;
 use Xin\Thrift\Notice\NoticeIf;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
@@ -29,4 +31,33 @@ class NoticeHandler extends Handler implements NoticeIf
         return true;
     }
 
+    public function getEmailList(\Xin\Thrift\Notice\EmailSearch $input)
+    {
+        $emails = EmailRepository::getInstance()->list(
+            $input->searchNumber,
+            $input->searchCode,
+            $input->pageIndex,
+            $input->pageSize
+        );
+
+        $result = [];
+        foreach ($emails as $email) {
+            $item = new EmailInfo();
+            $item->emailContent = new EmailContent([
+                'title' => $email->content->subject,
+                'content' => $email->content->content,
+                'searchCode' => $email->search_code,
+                'searchNumber' => $email->search_number,
+            ]);
+            foreach ($email->targets as $target) {
+                $item->target[] = new Email([
+                    'email' => $target->to_email,
+                    'name' => $target->to_name,
+                ]);
+            }
+            $result[] = $item;
+        }
+
+        return $result;
+    }
 }

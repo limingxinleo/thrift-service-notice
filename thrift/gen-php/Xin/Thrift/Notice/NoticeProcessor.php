@@ -66,4 +66,27 @@ class NoticeProcessor {
       $output->getTransport()->flush();
     }
   }
+  protected function process_getEmailList($seqid, $input, $output) {
+    $args = new \Xin\Thrift\Notice\Notice_getEmailList_args();
+    $args->read($input);
+    $input->readMessageEnd();
+    $result = new \Xin\Thrift\Notice\Notice_getEmailList_result();
+    try {
+      $result->success = $this->handler_->getEmailList($args->input);
+    } catch (\Xin\Thrift\Notice\ThriftException $ex) {
+      $result->ex = $ex;
+    }
+    $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
+    if ($bin_accel)
+    {
+      thrift_protocol_write_binary($output, 'getEmailList', TMessageType::REPLY, $result, $seqid, $output->isStrictWrite());
+    }
+    else
+    {
+      $output->writeMessageBegin('getEmailList', TMessageType::REPLY, $seqid);
+      $result->write($output);
+      $output->writeMessageEnd();
+      $output->getTransport()->flush();
+    }
+  }
 }

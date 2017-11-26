@@ -16,49 +16,49 @@ use Thrift\Protocol\TBinaryProtocolAccelerated;
 use Thrift\Exception\TApplicationException;
 
 
-class Notice_sendEmail_args {
+class Notice_getEmailList_result {
   static $_TSPEC;
 
   /**
-   * @var \Xin\Thrift\Notice\Email[]
+   * @var \Xin\Thrift\Notice\EmailInfo[]
    */
-  public $emails = null;
+  public $success = null;
   /**
-   * @var \Xin\Thrift\Notice\EmailContent
+   * @var \Xin\Thrift\Notice\ThriftException
    */
-  public $content = null;
+  public $ex = null;
 
   public function __construct($vals=null) {
     if (!isset(self::$_TSPEC)) {
       self::$_TSPEC = array(
-        1 => array(
-          'var' => 'emails',
+        0 => array(
+          'var' => 'success',
           'type' => TType::LST,
           'etype' => TType::STRUCT,
           'elem' => array(
             'type' => TType::STRUCT,
-            'class' => '\Xin\Thrift\Notice\Email',
+            'class' => '\Xin\Thrift\Notice\EmailInfo',
             ),
           ),
-        2 => array(
-          'var' => 'content',
+        1 => array(
+          'var' => 'ex',
           'type' => TType::STRUCT,
-          'class' => '\Xin\Thrift\Notice\EmailContent',
+          'class' => '\Xin\Thrift\Notice\ThriftException',
           ),
         );
     }
     if (is_array($vals)) {
-      if (isset($vals['emails'])) {
-        $this->emails = $vals['emails'];
+      if (isset($vals['success'])) {
+        $this->success = $vals['success'];
       }
-      if (isset($vals['content'])) {
-        $this->content = $vals['content'];
+      if (isset($vals['ex'])) {
+        $this->ex = $vals['ex'];
       }
     }
   }
 
   public function getName() {
-    return 'Notice_sendEmail_args';
+    return 'Notice_getEmailList_result';
   }
 
   public function read($input)
@@ -76,28 +76,28 @@ class Notice_sendEmail_args {
       }
       switch ($fid)
       {
-        case 1:
+        case 0:
           if ($ftype == TType::LST) {
-            $this->emails = array();
-            $_size7 = 0;
-            $_etype10 = 0;
-            $xfer += $input->readListBegin($_etype10, $_size7);
-            for ($_i11 = 0; $_i11 < $_size7; ++$_i11)
+            $this->success = array();
+            $_size14 = 0;
+            $_etype17 = 0;
+            $xfer += $input->readListBegin($_etype17, $_size14);
+            for ($_i18 = 0; $_i18 < $_size14; ++$_i18)
             {
-              $elem12 = null;
-              $elem12 = new \Xin\Thrift\Notice\Email();
-              $xfer += $elem12->read($input);
-              $this->emails []= $elem12;
+              $elem19 = null;
+              $elem19 = new \Xin\Thrift\Notice\EmailInfo();
+              $xfer += $elem19->read($input);
+              $this->success []= $elem19;
             }
             $xfer += $input->readListEnd();
           } else {
             $xfer += $input->skip($ftype);
           }
           break;
-        case 2:
+        case 1:
           if ($ftype == TType::STRUCT) {
-            $this->content = new \Xin\Thrift\Notice\EmailContent();
-            $xfer += $this->content->read($input);
+            $this->ex = new \Xin\Thrift\Notice\ThriftException();
+            $xfer += $this->ex->read($input);
           } else {
             $xfer += $input->skip($ftype);
           }
@@ -114,30 +114,27 @@ class Notice_sendEmail_args {
 
   public function write($output) {
     $xfer = 0;
-    $xfer += $output->writeStructBegin('Notice_sendEmail_args');
-    if ($this->emails !== null) {
-      if (!is_array($this->emails)) {
+    $xfer += $output->writeStructBegin('Notice_getEmailList_result');
+    if ($this->success !== null) {
+      if (!is_array($this->success)) {
         throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
       }
-      $xfer += $output->writeFieldBegin('emails', TType::LST, 1);
+      $xfer += $output->writeFieldBegin('success', TType::LST, 0);
       {
-        $output->writeListBegin(TType::STRUCT, count($this->emails));
+        $output->writeListBegin(TType::STRUCT, count($this->success));
         {
-          foreach ($this->emails as $iter13)
+          foreach ($this->success as $iter20)
           {
-            $xfer += $iter13->write($output);
+            $xfer += $iter20->write($output);
           }
         }
         $output->writeListEnd();
       }
       $xfer += $output->writeFieldEnd();
     }
-    if ($this->content !== null) {
-      if (!is_object($this->content)) {
-        throw new TProtocolException('Bad type in structure.', TProtocolException::INVALID_DATA);
-      }
-      $xfer += $output->writeFieldBegin('content', TType::STRUCT, 2);
-      $xfer += $this->content->write($output);
+    if ($this->ex !== null) {
+      $xfer += $output->writeFieldBegin('ex', TType::STRUCT, 1);
+      $xfer += $this->ex->write($output);
       $xfer += $output->writeFieldEnd();
     }
     $xfer += $output->writeFieldStop();

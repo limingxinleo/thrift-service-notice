@@ -2,24 +2,31 @@
 
 namespace App\Tasks\Test;
 
-use App\Support\Email\Email as EmailSupport;
+use App\Biz\Email\EmailRepository;
 use App\Tasks\Task;
 use App\Thrift\Clients\NoticeClient;
+use Xin\Cli\Color;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
+use Xin\Thrift\Notice\EmailSearch;
 
 class EmailTask extends Task
 {
 
     public function mainAction()
     {
-        $email = EmailSupport::getInstance();
-        $email->addTarget('715557344@qq.com', 'limx');
-        $res = $email->send('邮件测试', '测试内容');
-        dd($res);
+        echo Color::head('Help:') . PHP_EOL;
+        echo Color::colorize('  Email测试脚本') . PHP_EOL . PHP_EOL;
+
+        echo Color::head('Usage:') . PHP_EOL;
+        echo Color::colorize('  php run test:email@[action]', Color::FG_LIGHT_GREEN) . PHP_EOL . PHP_EOL;
+
+        echo Color::head('Actions:') . PHP_EOL;
+        echo Color::colorize('  send    发送邮件测试', Color::FG_LIGHT_GREEN) . PHP_EOL;
+        echo Color::colorize('  list    查询邮件列表测试', Color::FG_LIGHT_GREEN) . PHP_EOL;
     }
 
-    public function testAction()
+    public function sendAction()
     {
         $client = NoticeClient::getInstance();
         $email = new Email([
@@ -33,5 +40,17 @@ class EmailTask extends Task
         $res = $client->sendEmail([$email], $content);
         dd($res);
     }
+
+    public function listAction()
+    {
+        $client = NoticeClient::getInstance();
+        $search = new EmailSearch([
+            'searchNumber' => 0,
+        ]);
+        $res = $client->getEmailList($search);
+        dd($res);
+    }
+
+
 }
 

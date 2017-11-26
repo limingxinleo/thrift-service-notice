@@ -24,6 +24,12 @@ interface NoticeIf {
    * @throws \Xin\Thrift\Notice\ThriftException
    */
   public function sendEmail(array $emails, \Xin\Thrift\Notice\EmailContent $content);
+  /**
+   * @param \Xin\Thrift\Notice\EmailSearch $input
+   * @return \Xin\Thrift\Notice\EmailInfo[]
+   * @throws \Xin\Thrift\Notice\ThriftException
+   */
+  public function getEmailList(\Xin\Thrift\Notice\EmailSearch $input);
 }
 
 

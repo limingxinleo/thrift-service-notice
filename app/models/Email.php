@@ -2,6 +2,12 @@
 
 namespace App\Models;
 
+/**
+ * Class Email
+ * @package App\Models
+ * @property EmailContent  $content
+ * @property EmailTarget[] $targets
+ */
 class Email extends Model
 {
 
@@ -56,6 +62,9 @@ class Email extends Model
     {
         $this->setSchema("notice");
         $this->setSource("email");
+
+        $this->hasOne('id', EmailContent::class, 'email_id', ['alias' => 'content', 'reusable' => true]);
+        $this->hasMany('id', EmailTarget::class, 'email_id', ['alias' => 'targets', 'reusable' => true]);
     }
 
     /**

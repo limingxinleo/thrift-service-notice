@@ -63,4 +63,38 @@ class EmailRepository extends InstanceBase
             throw new CodeException(ErrorCode::$ENUM_EMAIL_MODEL_SAVE_FAILED);
         }
     }
+
+    /**
+     * @desc
+     * @author limx
+     * @param null $searchNumber
+     * @param null $searchCode
+     * @param int  $pageIndex
+     * @param int  $pageSize
+     * @return Email|Email[]|\Phalcon\Mvc\Model\ResultSetInterface
+     */
+    public function list($searchNumber = null, $searchCode = null, $pageIndex = 0, $pageSize = 10)
+    {
+        $where = '';
+        $bind = [];
+
+        if (isset($searchNumber)) {
+            $where .= 'search_number = :search_number:';
+            $bind['search_number'] = $searchNumber;
+        }
+
+        if (isset($searchCode)) {
+            $where .= 'search_code = :search_code:';
+            $bind['search_code'] = $searchCode;
+        }
+
+        $email = Email::with(['content', 'targets'], [
+            'conditions' => $where,
+            'bind' => $bind,
+            'offset' => $pageSize * $pageIndex,
+            'limit' => $pageSize,
+        ]);
+
+        return $email;
+    }
 }
