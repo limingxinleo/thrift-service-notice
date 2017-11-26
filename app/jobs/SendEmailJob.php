@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Biz\Email\EmailRepository;
 use App\Jobs\Contract\JobInterface;
 use Xin\Thrift\Notice\EmailContent;
 use Xin\Thrift\Notice\Email;
@@ -23,13 +24,15 @@ class SendEmailJob implements JobInterface
 
     public function handle()
     {
+        $emailModel = EmailRepository::getInstance()->save($this->emails, $this->content);
         $client = EmailSupport::getInstance();
         foreach ($this->emails as $item) {
             $client->addTarget($item->email, $item->name);
         }
         if ($client->send($this->content->title, $this->content->content)) {
             // 发送成功记录
-            return true;
+            $emailModel->status = 1;
+            return $emailModel->save();
         }
         return false;
     }
