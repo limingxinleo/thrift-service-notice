@@ -21,6 +21,7 @@ interface NoticeIf {
    * @param \Xin\Thrift\Notice\Email[] $emails
    * @param \Xin\Thrift\Notice\EmailContent $content
    * @return bool
+   * @throws \Xin\Thrift\Notice\ThriftException
    */
   public function sendEmail(array $emails, \Xin\Thrift\Notice\EmailContent $content);
 }

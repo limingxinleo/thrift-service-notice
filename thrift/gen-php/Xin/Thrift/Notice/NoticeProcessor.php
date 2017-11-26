@@ -48,7 +48,11 @@ class NoticeProcessor {
     $args->read($input);
     $input->readMessageEnd();
     $result = new \Xin\Thrift\Notice\Notice_sendEmail_result();
-    $result->success = $this->handler_->sendEmail($args->emails, $args->content);
+    try {
+      $result->success = $this->handler_->sendEmail($args->emails, $args->content);
+    } catch (\Xin\Thrift\Notice\ThriftException $ex) {
+      $result->ex = $ex;
+    }
     $bin_accel = ($output instanceof TBinaryProtocolAccelerated) && function_exists('thrift_protocol_write_binary');
     if ($bin_accel)
     {

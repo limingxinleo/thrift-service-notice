@@ -76,6 +76,9 @@ class NoticeClient implements \Xin\Thrift\Notice\NoticeIf {
     if ($result->success !== null) {
       return $result->success;
     }
+    if ($result->ex !== null) {
+      throw $result->ex;
+    }
     throw new \Exception("sendEmail failed: unknown result");
   }
 
