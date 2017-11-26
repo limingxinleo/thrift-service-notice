@@ -35,7 +35,7 @@ return [
 
             // 默认可用的发送网关
             'gateways' => [
-                'yunpian', 'aliyun', 'alidayu',
+                'aliyun', 'alidayu',
             ],
         ],
         // 可用的网关配置
@@ -52,7 +52,9 @@ return [
                 'sign_name' => env('SMS_ALIYUN_SIGN_NAME'),
             ],
             'alidayu' => [
-                //...
+                'app_key' => env('SMS_ALIDAYU_APP_KEY'),
+                'app_secret' => env('SMS_ALIDAYU_APP_SECRET'),
+                'sign_name' => env('SMS_ALIDAYU_SIGN_NAME'),
             ],
         ],
     ]
