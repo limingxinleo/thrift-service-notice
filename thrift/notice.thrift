@@ -49,4 +49,7 @@ service Notice {
 
     // 发送短信
     bool sendSms(1:list<Sms> sms) throws (1:ThriftException ex);
+
+    // 推送钉钉自定义机器人文本消息
+    bool sendDtRobotText(1:string text, 2:string url) throws(1:ThriftException ex);
 }

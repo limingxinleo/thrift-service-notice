@@ -9,6 +9,7 @@
 namespace App\Thrift\Services;
 
 use App\Biz\Email\EmailRepository;
+use App\Jobs\DingTalk\SendRobotTextJob;
 use App\Jobs\SendEmailJob;
 use App\Jobs\SendSmsJob;
 use App\Utils\Queue;
@@ -77,5 +78,17 @@ class NoticeHandler extends Handler implements NoticeIf
     public function sendSms(array $sms)
     {
         return Queue::push(new SendSmsJob($sms));
+    }
+
+    /**
+     * @desc   推送钉钉自定义机器人文本消息
+     * @author limx
+     * @param string $text
+     * @param string $url
+     * @return mixed
+     */
+    public function sendDtRobotText($text, $url)
+    {
+        return Queue::push(new SendRobotTextJob($text, $url));
     }
 }

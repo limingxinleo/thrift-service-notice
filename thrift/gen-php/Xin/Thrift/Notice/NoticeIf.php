@@ -36,6 +36,13 @@ interface NoticeIf {
    * @throws \Xin\Thrift\Notice\ThriftException
    */
   public function sendSms(array $sms);
+  /**
+   * @param string $text
+   * @param string $url
+   * @return bool
+   * @throws \Xin\Thrift\Notice\ThriftException
+   */
+  public function sendDtRobotText($text, $url);
 }
 
 
