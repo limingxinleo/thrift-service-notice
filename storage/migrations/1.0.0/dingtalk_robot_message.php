@@ -6,9 +6,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Mvc\Model\Migration;
 
 /**
- * Class SmsMigration_100
+ * Class DingtalkRobotMessageMigration_100
  */
-class SmsMigration_100 extends Migration
+class DingtalkRobotMessageMigration_100 extends Migration
 {
     /**
      * Define the table structure
@@ -17,7 +17,7 @@ class SmsMigration_100 extends Migration
      */
     public function morph()
     {
-        $this->morphTable('sms', [
+        $this->morphTable('dingtalk_robot_message', [
                 'columns' => [
                     new Column(
                         'id',
@@ -31,84 +31,44 @@ class SmsMigration_100 extends Migration
                         ]
                     ),
                     new Column(
-                        'search_number',
-                        [
-                            'type' => Column::TYPE_BIGINTEGER,
-                            'default' => "0",
-                            'unsigned' => true,
-                            'notNull' => true,
-                            'size' => 20,
-                            'after' => 'id'
-                        ]
-                    ),
-                    new Column(
-                        'search_code',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 128,
-                            'after' => 'search_number'
-                        ]
-                    ),
-                    new Column(
-                        'mobile',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 16,
-                            'after' => 'search_code'
-                        ]
-                    ),
-                    new Column(
-                        'template_id',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'notNull' => true,
-                            'size' => 32,
-                            'after' => 'mobile'
-                        ]
-                    ),
-                    new Column(
-                        'data',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'template_id'
-                        ]
-                    ),
-                    new Column(
-                        'content',
-                        [
-                            'type' => Column::TYPE_VARCHAR,
-                            'default' => "",
-                            'notNull' => true,
-                            'size' => 255,
-                            'after' => 'data'
-                        ]
-                    ),
-                    new Column(
-                        'status',
+                        'robot_id',
                         [
                             'type' => Column::TYPE_INTEGER,
                             'default' => "0",
                             'unsigned' => true,
                             'notNull' => true,
-                            'size' => 3,
-                            'after' => 'content'
+                            'size' => 11,
+                            'after' => 'id'
                         ]
                     ),
                     new Column(
-                        'result',
+                        'message',
                         [
                             'type' => Column::TYPE_VARCHAR,
                             'default' => "",
                             'notNull' => true,
-                            'size' => 1000,
-                            'after' => 'status'
+                            'size' => 1024,
+                            'after' => 'robot_id'
+                        ]
+                    ),
+                    new Column(
+                        'markdown',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 1024,
+                            'after' => 'message'
+                        ]
+                    ),
+                    new Column(
+                        'link',
+                        [
+                            'type' => Column::TYPE_VARCHAR,
+                            'default' => "",
+                            'notNull' => true,
+                            'size' => 512,
+                            'after' => 'markdown'
                         ]
                     ),
                     new Column(
@@ -116,7 +76,7 @@ class SmsMigration_100 extends Migration
                         [
                             'type' => Column::TYPE_DATETIME,
                             'size' => 1,
-                            'after' => 'result'
+                            'after' => 'link'
                         ]
                     ),
                     new Column(
@@ -133,7 +93,7 @@ class SmsMigration_100 extends Migration
                 ],
                 'options' => [
                     'TABLE_TYPE' => 'BASE TABLE',
-                    'AUTO_INCREMENT' => '6',
+                    'AUTO_INCREMENT' => '1',
                     'ENGINE' => 'InnoDB',
                     'TABLE_COLLATION' => 'utf8mb4_unicode_ci'
                 ],
