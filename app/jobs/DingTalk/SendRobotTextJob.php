@@ -4,6 +4,7 @@ namespace App\Jobs\DingTalk;
 
 use App\Jobs\Contract\JobInterface;
 use Xin\DingTalk\Application;
+use Xin\DingTalk\Robot\RobotClient;
 
 class SendRobotTextJob implements JobInterface
 {
@@ -19,7 +20,18 @@ class SendRobotTextJob implements JobInterface
 
     public function handle()
     {
-        dump($this->text, $this->url);
+        $key = md5($this->url);
+        $ding = new Application([
+            'timeout' => 5.0,
+            'robot' => [
+                'gateways' => [
+                    $key => [
+                        'url' => $this->url
+                    ]
+                ],
+            ],
+        ]);
+        return $ding->robot[$key]->sendText($this->text);
     }
 }
 
